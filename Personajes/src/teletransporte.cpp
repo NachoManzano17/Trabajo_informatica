@@ -1,4 +1,5 @@
 #include "teletransporte.h"
+#include <algorithm>
 
 teletransporte::teletransporte(int v, int f, int va, int tr, int rm, int b)
     : pieza(v, f, va, tr, rm, b) {
@@ -7,12 +8,23 @@ teletransporte::teletransporte(int v, int f, int va, int tr, int rm, int b)
 void teletransporte::moverEnTablero() {
     // aquí irá el código para que desaparezca y aparezca en otra casilla
 }
+
 bool teletransporte::esMovimientoValido(int forigen, int corigen, int fdestino, int cdestino) {
-    // regla 1: el único movimiento ilegal para un teletransporte es quedarse en el mismo sitio
-    if (forigen == fdestino && corigen == cdestino) {
+    int distfila = std::abs(forigen - fdestino);
+    int distcol = std::abs(corigen - cdestino);
+
+    // calculamos la distancia real en la cuadrícula
+    int distanciamax = std::max(distfila, distcol);
+
+    // restricción 1: ¡el teletransporte también tiene un límite de distancia!
+    if (distanciamax > radiomovimiento) {
         return false;
     }
 
-    // a cualquier otra casilla de la matriz, la respuesta siempre es sí
+    // restricción 2: no puedes gastar el turno en reaparecer donde ya estás
+    if (distanciamax == 0) {
+        return false;
+    }
+
     return true;
 }
