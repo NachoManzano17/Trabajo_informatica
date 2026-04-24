@@ -1,48 +1,43 @@
-
 #include "drzomboss.h"
 #include <iostream>
 
+
 drzomboss::drzomboss(int bando)
     : terrestre(200, 40, 4, 4, 3, bando) {
+
     hechizocurarusado = false;
     hechizoresucitarusado = false;
     hechizoteletransportarusado = false;
 }
 
 void drzomboss::atacarEnArena() {
-    std::cout << "¡el dr. zomboss da un puñetazo devastador a corta distancia!" << std::endl;
+    std::cout << "¡dave ataca golpeando fuertemente con su sartén!" << std::endl;
 }
 
-bool drzomboss::lanzarHechizoCurar(personaje* objetivoaliado) {
-    if (hechizocurarusado) return false;
-
-    // lógica real: curamos al zombi aliado
-    objetivoaliado->curar(100);
-
+// --- LÓGICA DE CURAR ---
+// 1. El main le pregunta a Dave si puede curar (el "OK")
+bool drzomboss::puedeCurar() {
+    return !hechizocurarusado;
+}
+// 2. El main le avisa a Dave de que el hechizo ya se ejecutó en el tablero
+void drzomboss::consumirCurar() {
     hechizocurarusado = true;
-    return true;
 }
 
-bool drzomboss::lanzarHechizoResucitar(personaje* objetivomuerto) {
-    if (hechizoresucitarusado) return false;
 
-    // si el zombi ya estaba vivo, fallamos para no gastar el hechizo
-    if (objetivomuerto->estaVivo()) {
-        return false;
-    }
-
-    // lógica real: lo revivimos
-    objetivomuerto->curar(100);
-
+// --- LÓGICA DE RESUCITAR ---
+bool drzomboss::puedeResucitar() {
+    return !hechizoresucitarusado;
+}
+void drzomboss::consumirResucitar() {
     hechizoresucitarusado = true;
-    return true;
 }
 
-bool drzomboss::lanzarHechizoTeletransportar(personaje* objetivo, int nuevafila, int nuevacolumna) {
-    if (hechizoteletransportarusado) return false;
 
-    // al igual que dave, tu compañero moverá el puntero en su matriz
-    // tú solo le confirmas que el hechizo se ha gastado con éxito
+// --- LÓGICA DE TELETRANSPORTAR ---
+bool drzomboss::puedeTeletransportar() {
+    return !hechizoteletransportarusado;
+}
+void drzomboss::consumirTeletransportar() {
     hechizoteletransportarusado = true;
-    return true;
 }
