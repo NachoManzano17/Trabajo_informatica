@@ -1,38 +1,39 @@
-#include "volador.h"
-#include <cmath>
-#include <algorithm> 
+ #include "volador.h"
+ #include <cmath>
+ #include <algorithm> 
 
 
-// El constructor de Terrestre simplemente le pasa los datos al constructor de Pieza
-volador::volador(int v, int f, int va, int tr, int rm, int b)
-    : personaje(v, f, va, tr, rm, b) {
-}
+ 
+ volador::volador(int v, int f, int va, int tr, int rm, int b)
+     : personaje(v, f, va, tr, rm, b) {
+ }
 
-// Implementación del movimiento
-void volador::moverEnTablero() {
-    // Aquí irá el código lógico de movimiento más adelante.
-    // Por ejemplo: Comprobar que la casilla destino está en línea recta
-    // y que no hay obstáculos por el medio.
-}
-#include <cmath>
-#include <algorithm> 
+ 
+ void volador::moverEnTablero() {
+     
+ }
 
-bool volador::esmovimientovalido(int forigen, int corigen, int fdestino, int cdestino) {
-    int distfila = std::abs(forigen - fdestino);
-    int distcol = std::abs(corigen - cdestino);
 
-    // en movimiento con diagonales permitidas, la distancia es el valor más grande de los dos
-    int distanciamax = std::max(distfila, distcol);
+ bool volador::esmovimientovalido(int forigen, int corigen, int fdestino, int cdestino) {
+     int distfila = std::abs(forigen - fdestino);
+     int distcol = std::abs(corigen - cdestino);
 
-    // regla 1: no superar el radio
-    if (distanciamax > radioMovimiento) {
-        return false;
-    }
+     // Regla 0: No quedarse quieto
+     if (distfila == 0 && distcol == 0) {
+         return false;
+     }
 
-    // regla 2: no quedarse quieto
-    if (distanciamax == 0) {
-        return false;
-    }
+     // Regla 1: Movimiento de ALFIL (solo en diagonal)
+     // Para que sea diagonal pura, avanzar en filas debe ser igual que avanzar en columnas
+     if (distfila != distcol) {
+         return false;
+     }
 
-    return true;
-}
+     // Regla 2: No superar el radio de movimiento
+     // Como ahora sabemos que distfila es igual a distcol, podemos comparar cualquiera de las dos
+     if (distfila > radioMovimiento) {
+         return false;
+     }
+
+     return true;
+ }
