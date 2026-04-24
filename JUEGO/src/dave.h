@@ -15,9 +15,15 @@ public:
     dave(int bando);
     void atacarEnArena() override;
 
-    // dejaremos preparadas las funciones de los conjuros (se harán más adelante)
-    bool lanzarHechizoCurar(personaje* objetivoaliado);
-    bool lanzarHechizoResucitar(personaje* objetivomuerto);
-    bool lanzarHechizoTeletransportar(personaje* objetivo, int nuevafila, int nuevacolumna);
+    
+    bool puedeCurar();
+    void consumirCurar();
+
+    bool puedeResucitar();
+    void consumirResucitar();
+
+    bool puedeTeletransportar();
+    void consumirTeletransportar();
+
     std::string getsimbolo() const override { return "Dave"; }
 };
