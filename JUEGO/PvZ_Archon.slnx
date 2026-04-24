@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="PvZ_Archon/PvZ_Archon.vcxproj" Id="60523814-c56c-487a-a345-4c72320f599f" />
+</Solution>
