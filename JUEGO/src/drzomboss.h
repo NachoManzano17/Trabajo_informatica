@@ -13,8 +13,13 @@ public:
     drzomboss(int bando);
     void atacarEnArena() override;
 
-    bool lanzarHechizoCurar(personaje* objetivoaliado);
-    bool lanzarHechizoResucitar(personaje* objetivomuerto);
-    bool lanzarHechizoTeletransportar(personaje* objetivo, int nuevafila, int nuevacolumna);
+    bool puedeCurar();
+    void consumirCurar();
+
+    bool puedeResucitar();
+    void consumirResucitar();
+
+    bool puedeTeletransportar();
+    void consumirTeletransportar();
     std::string getsimbolo() const override { return "DrZomboss"; }
 };
