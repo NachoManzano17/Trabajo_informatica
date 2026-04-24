@@ -91,126 +91,147 @@ int resolverCombateEnArena(personaje* atacante, personaje* defensor, sf::RenderW
 
 
 int main() {
-    // 1. CREAMOS LA VENTANA
-    // Una ventana de 810x810 píxeles para que quepan 9 casillas de 90 píxeles
-    sf::RenderWindow window(sf::VideoMode(810, 810), "Archon Warfare - SFML Version");
-    window.setFramerateLimit(60); // 60 FPS
+    // ---> ¡NUEVO! 1. CREAMOS LA VENTANA A PANTALLA COMPLETA <---
+    // Preguntamos a Windows de qué tamaño es tu pantalla (ej: 1920x1080)
+    sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
+    sf::RenderWindow window(desktop, "Archon Warfare", sf::Style::Fullscreen);
+    window.setFramerateLimit(60);
 
-    // 2. INICIALIZAMOS TU MOTOR LÓGICO
+    // ---> ¡NUEVO! 2. CARGAMOS TODAS LAS TEXTURAS <---
+    sf::Texture texturaCesped;
+    if (!texturaCesped.loadFromFile("cesped.PNG")) std::cout << "[ERROR] Falta cesped.PNG\n";
+
+    sf::Texture texturaTierra;
+    if (!texturaTierra.loadFromFile("tierra.PNG")) std::cout << "[ERROR] Falta tierra.PNG\n";
+
+    sf::Texture texturaFondo;
+    if (!texturaFondo.loadFromFile("fondo.PNG")) std::cout << "[ERROR] Falta fondo.PNG\n";
+
+    sf::Sprite spriteFondo(texturaFondo);
+    // Escalamos el fondo por si tu pantalla es más grande o pequeña que la imagen original
+    spriteFondo.setScale((float)desktop.width / texturaFondo.getSize().x, (float)desktop.height / texturaFondo.getSize().y);
+
+
+    // 3. INICIALIZAMOS TU MOTOR LÓGICO
     tablero mitablero;
     mitablero.inicializarpartida();
 
-    // 3. VARIABLES PARA EL CONTROL DEL RATÓN
+    // 4. VARIABLES PARA EL RATÓN Y EL CENTRADO
     int tamanoCasilla = 90;
     bool hayPersonajeSeleccionado = false;
-    int fSel = -1; // Fila seleccionada
-    int cSel = -1; // Columna seleccionada
+    int fSel = -1;
+    int cSel = -1;
+    bando turnoActual = bando::planta;
 
-    // 4. EL BUCLE DE JUEGO PRINCIPAL
+    // ---> ¡NUEVO! CÁLCULO DEL CENTRO EXACTO DE LA PANTALLA <---
+    // (Ancho de la pantalla - Ancho del tablero(810)) / 2
+    int offsetX = (desktop.width - (9 * tamanoCasilla)) / 2;
+    int offsetY = (desktop.height - (9 * tamanoCasilla)) / 2;
+
+
+    // 5. EL BUCLE DE JUEGO PRINCIPAL
     while (window.isOpen()) {
         sf::Event event;
 
         // --- A. GESTIÓN DE EVENTOS ---
         while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed) {
+            if (event.type == sf::Event::Closed) window.close();
+
+            // Para poder salir del juego al pulsar la tecla ESCAPE
+            if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape) {
                 window.close();
             }
 
             // Si hacemos clic con el botón izquierdo
             if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
-                int cClic = event.mouseButton.x / tamanoCasilla;
-                int fClic = event.mouseButton.y / tamanoCasilla;
 
-                // 1. SI NO TENEMOS NADA SELECCIONADO
-                if (!hayPersonajeSeleccionado) {
-                    personaje* fichaClicada = mitablero.getFicha(fClic, cClic);
-                    if (fichaClicada != nullptr) {
-                        hayPersonajeSeleccionado = true;
-                        fSel = fClic;
-                        cSel = cClic;
-                        std::cout << "[!] Seleccionado: " << fichaClicada->getsimbolo() << "\n";
+                // ---> ¡NUEVO! AJUSTAMOS EL CLIC DEL RATÓN AL CENTRO DE LA PANTALLA <---
+                int ratonX = event.mouseButton.x - offsetX;
+                int ratonY = event.mouseButton.y - offsetY;
+
+                // Comprobamos que hemos hecho clic DENTRO del tablero de 810x810, no en los árboles del fondo
+                if (ratonX >= 0 && ratonX < (9 * tamanoCasilla) && ratonY >= 0 && ratonY < (9 * tamanoCasilla)) {
+
+                    int cClic = ratonX / tamanoCasilla;
+                    int fClic = ratonY / tamanoCasilla;
+
+                    // 1. SI NO TENEMOS NADA SELECCIONADO
+                    if (!hayPersonajeSeleccionado) {
+                        personaje* fichaClicada = mitablero.getFicha(fClic, cClic);
+
+                        if (fichaClicada != nullptr) {
+                            if (fichaClicada->getequipo() == turnoActual) {
+                                hayPersonajeSeleccionado = true;
+                                fSel = fClic;
+                                cSel = cClic;
+                                std::cout << "[!] Seleccionado: " << fichaClicada->getsimbolo() << "\n";
+                            }
+                            else {
+                                std::cout << "[X] ¡Quieto ahi! No es tu turno.\n";
+                            }
+                        }
                     }
-                }
-                // 2. SI YA TENÍAMOS UNA FICHA AGARRADA
-                else {
-                    if (fClic == fSel && cClic == cSel) {
-                        // Deseleccionar si pincha en sí misma (quitamos el brillo)
-                        hayPersonajeSeleccionado = false;
-                        fSel = -1; cSel = -1;
-                        std::cout << "-> Deseleccionado\n";
-                    }
+                    // 2. SI YA TENÍAMOS UNA FICHA AGARRADA
                     else {
-                        // Miramos qué hay en la casilla destino
-                        personaje* atacante = mitablero.getFicha(fSel, cSel);
-                        personaje* defensor = mitablero.getFicha(fClic, cClic);
-                        if (!atacante->puedeSaltar() && mitablero.hayObstaculoEnCamino(fSel, cSel, fClic, cClic)) {
-                            std::cout << "-> Movimiento invalido: Hay piezas bloqueando el camino.\n";
+                        if (fClic == fSel && cClic == cSel) {
                             hayPersonajeSeleccionado = false;
                             fSel = -1; cSel = -1;
                         }
-
-                        // Si hay un defensor y es enemigo... ¡A LA ARENA!
-                        else if (defensor != nullptr && atacante->getequipo() != defensor->getequipo()) {
-                            std::cout << "[!] COMBATE INICIADO [!]\n";
-
-                            int resultado = resolverCombateEnArena(atacante, defensor, window);
-
-                            if (resultado == 1) {
-                                std::cout << "-> Gana Atacante\n";
-                                mitablero.procesarmovimiento(fSel, cSel, fClic, cClic);
-                            }
-                            else if (resultado == 2) {
-                                std::cout << "-> Gana Defensor\n";
-                                mitablero.eliminarFicha(fSel, cSel);
-                            }
-                            else {
-                                std::cout << "-> Empate (Mueren los dos)\n";
-                                mitablero.eliminarFicha(fSel, cSel);
-                                mitablero.eliminarFicha(fClic, cClic);
-                            }
-                        }
-                        else if (defensor == nullptr) {
-                            bool exito = mitablero.procesarmovimiento(fSel, cSel, fClic, cClic);
-                            if (exito) std::cout << "-> Movimiento completado\n";
-                            else std::cout << "-> Movimiento invalido\n";
-                        }
-                        // CASO 3: Hay un defensor y es de TU BANDO (Aliado) -> Ilegal
                         else {
-                            std::cout << "-> Movimiento cancelado: No puedes pisar a un aliado.\n";
-                        }
+                            personaje* atacante = mitablero.getFicha(fSel, cSel);
+                            personaje* defensor = mitablero.getFicha(fClic, cClic);
 
-                        // Soltamos la ficha pase lo que pase
-                        hayPersonajeSeleccionado = false;
-                        fSel = -1; cSel = -1;
-                        // Movimiento normal (casilla vacía)
-                        /*else {
-                            bool exito = mitablero.procesarmovimiento(fSel, cSel, fClic, cClic);
-                            if (exito) std::cout << "-> Movimiento completado\n";
-                            else std::cout << "-> Movimiento invalido\n";
-                        }
+                            if (defensor != nullptr && atacante->getequipo() != defensor->getequipo()) {
+                                std::cout << "[!] COMBATE INICIADO [!]\n";
+                                int resultado = resolverCombateEnArena(atacante, defensor, window);
 
-                        // Soltamos la ficha pase lo que pase
-                        hayPersonajeSeleccionado = false;
-                        fSel = -1; cSel = -1;*/
+                                if (resultado == 1) {
+                                    mitablero.procesarmovimiento(fSel, cSel, fClic, cClic);
+                                }
+                                else if (resultado == 2) {
+                                    mitablero.eliminarFicha(fSel, cSel);
+                                }
+                                else {
+                                    mitablero.eliminarFicha(fSel, cSel);
+                                    mitablero.eliminarFicha(fClic, cClic);
+                                }
+                                turnoActual = (turnoActual == bando::planta) ? bando::zombi : bando::planta;
+                            }
+                            else if (defensor == nullptr) {
+                                bool exito = mitablero.procesarmovimiento(fSel, cSel, fClic, cClic);
+                                if (exito) {
+                                    turnoActual = (turnoActual == bando::planta) ? bando::zombi : bando::planta;
+                                }
+                            }
+
+                            hayPersonajeSeleccionado = false;
+                            fSel = -1; cSel = -1;
+                        }
                     }
                 }
             }
-        
+        }
+
 
         // --- B. DIBUJAR LA PANTALLA ---
-        window.clear(sf::Color(30, 30, 30));
+        window.clear();
 
-        // 1. Dibujar el fondo cuadriculado
+        // ---> ¡NUEVO! DIBUJAMOS EL FONDO LO PRIMERO DE TODO <---
+        window.draw(spriteFondo);
+
+        // 1. Dibujar el fondo cuadriculado con las texturas y el offset
         for (int i = 0; i < 9; ++i) {
             for (int j = 0; j < 9; ++j) {
                 sf::RectangleShape casilla(sf::Vector2f(tamanoCasilla, tamanoCasilla));
-                casilla.setPosition(j * tamanoCasilla, i * tamanoCasilla);
 
-                if ((i + j) % 2 == 0) casilla.setFillColor(sf::Color(100, 100, 100));
-                else casilla.setFillColor(sf::Color(60, 60, 60));
+                // Le sumamos offsetX y offsetY para que se dibuje en el centro
+                casilla.setPosition(offsetX + (j * tamanoCasilla), offsetY + (i * tamanoCasilla));
 
-                casilla.setOutlineThickness(-2.f);
-                casilla.setOutlineColor(sf::Color::Black);
+                if ((i + j) % 2 == 0) casilla.setTexture(&texturaCesped);
+                else casilla.setTexture(&texturaTierra);
+
+                casilla.setOutlineThickness(-1.f);
+                casilla.setOutlineColor(sf::Color(20, 20, 20, 100)); // Borde muy sutil
                 window.draw(casilla);
             }
         }
@@ -219,49 +240,31 @@ int main() {
         if (hayPersonajeSeleccionado) {
             personaje* seleccionado = mitablero.getFicha(fSel, cSel);
 
-            // A. Brillo amarillo en la casilla donde está la ficha (Origen)
             sf::RectangleShape highlight(sf::Vector2f(tamanoCasilla, tamanoCasilla));
-            highlight.setPosition(cSel * tamanoCasilla, fSel * tamanoCasilla);
-            highlight.setFillColor(sf::Color(255, 255, 0, 100)); // Amarillo transparente
+            highlight.setPosition(offsetX + (cSel * tamanoCasilla), offsetY + (fSel * tamanoCasilla));
+            highlight.setFillColor(sf::Color(255, 255, 0, 100));
             window.draw(highlight);
 
-            // B. Calcular y dibujar los "Puntos de movimiento" a lo Chess.com
             if (seleccionado != nullptr) {
-                // Escaneamos todo el tablero (81 casillas)
                 for (int i = 0; i < 9; ++i) {
                     for (int j = 0; j < 9; ++j) {
-                        // 1. Ignoramos la casilla donde ya estamos parados
                         if (i == fSel && j == cSel) continue;
 
-                        // 2. Le preguntamos a la ficha si sabe llegar matemáticamente a [i][j]
                         if (seleccionado->esmovimientovalido(fSel, cSel, i, j)) {
+                            if (!seleccionado->puedeSaltar() && mitablero.hayObstaculoEnCamino(fSel, cSel, i, j)) continue;
 
-                            // ---> ¡NUEVO FILTRO VISUAL AQUÍ! <---
-                            // Si la pieza NO sabe saltar Y hay alguien en medio del camino...
-                            if (!seleccionado->puedeSaltar() && mitablero.hayObstaculoEnCamino(fSel, cSel, i, j)) {
-                                continue; // ... abortamos y NO dibujamos el punto en esta casilla
-                            }
-
-                            // 3. Comprobamos que no haya un aliado ahí (para no pisarnos entre nosotros)
                             personaje* fichaDestino = mitablero.getFicha(i, j);
                             if (fichaDestino == nullptr || fichaDestino->getequipo() != seleccionado->getequipo()) {
 
-                                // ¡BINGO! Es un movimiento válido. Dibujamos un círculo azulito en el centro.
-                                float radioPunto = 12.0f; // Tamaño del punto
+                                float radioPunto = 12.0f;
                                 sf::CircleShape puntoMovimiento(radioPunto);
 
-                                // Fórmulas matemáticas para centrar el punto exactamente en medio de la casilla
                                 float centroX = (j * tamanoCasilla) + (tamanoCasilla / 2.0f) - radioPunto;
                                 float centroY = (i * tamanoCasilla) + (tamanoCasilla / 2.0f) - radioPunto;
-                                puntoMovimiento.setPosition(centroX, centroY);
+                                puntoMovimiento.setPosition(offsetX + centroX, offsetY + centroY);
 
-                                // Si hay un enemigo, lo pintamos rojizo (Ataque), si está vacío, azul (Movimiento)
-                                if (fichaDestino != nullptr) {
-                                    puntoMovimiento.setFillColor(sf::Color(255, 50, 50, 180)); // Rojo semi-transparente
-                                }
-                                else {
-                                    puntoMovimiento.setFillColor(sf::Color(100, 200, 255, 150)); // Azulito chess.com
-                                }
+                                if (fichaDestino != nullptr) puntoMovimiento.setFillColor(sf::Color(255, 50, 50, 180));
+                                else puntoMovimiento.setFillColor(sf::Color(100, 200, 255, 150));
 
                                 window.draw(puntoMovimiento);
                             }
@@ -271,35 +274,38 @@ int main() {
             }
         }
 
-        // 3. Dibujar las tropas (Círculos verdes y morados)
+        // 3. Dibujar las tropas
         for (int i = 0; i < 9; ++i) {
             for (int j = 0; j < 9; ++j) {
                 personaje* fichaActual = mitablero.getFicha(i, j);
 
                 if (fichaActual != nullptr) {
-                    // Creamos un círculo un poco más pequeño que la casilla
                     sf::CircleShape circulo(tamanoCasilla / 2.5f);
+                    circulo.setPosition(offsetX + (j * tamanoCasilla) + 9, offsetY + (i * tamanoCasilla) + 9);
 
-                    // Lo centramos matemáticamente (offset de unos 9 píxeles)
-                    circulo.setPosition(j * tamanoCasilla + 9, i * tamanoCasilla + 9);
-
-                    // Pinta de Verde si es Planta (0), Morado si es Zombi (1)
-                    if (fichaActual->getequipo() == bando::planta) {
-                        circulo.setFillColor(sf::Color(50, 205, 50)); // Verde lima
-                    }
-                    else {
-                        circulo.setFillColor(sf::Color(138, 43, 226)); // Morado Zombi
-                    }
+                    if (fichaActual->getequipo() == bando::planta) circulo.setFillColor(sf::Color(50, 205, 50));
+                    else circulo.setFillColor(sf::Color(138, 43, 226));
 
                     window.draw(circulo);
                 }
             }
         }
 
-        
-    }
+        // 4. EL CHIVATO VISUAL DE TURNOS
+        sf::CircleShape chivatoTurno(20.0f);
+        chivatoTurno.setPosition(20.0f, 20.0f); // Lo alejamos un poco de la esquina para la pantalla completa
+
+        if (turnoActual == bando::planta) chivatoTurno.setFillColor(sf::Color(50, 205, 50));
+        else chivatoTurno.setFillColor(sf::Color(138, 43, 226));
+
+        chivatoTurno.setOutlineThickness(3.0f);
+        chivatoTurno.setOutlineColor(sf::Color::White);
+
+        window.draw(chivatoTurno);
+
         window.display();
- }
-        return 0;
+    }
+
+    return 0;
 }
   
