@@ -1,6 +1,9 @@
 #include "MinimaxStrategy.h"
 
 #include <algorithm>
+#include <chrono>
+#include <random>
+#include <vector>
 #include <limits>
 #include <stdexcept>
 
@@ -29,19 +32,43 @@ Move MinimaxStrategy::chooseMove(const IGameState& state) {
     double alpha = NEG_INF;
     const double beta = POS_INF;
     double bestValue = NEG_INF;
-    Move bestMove = moves.front();
+
+    struct Candidate {
+        Move move;
+        double value;
+    };
+    std::vector<Candidate> candidates;
+    candidates.reserve(moves.size());
 
     for (const auto& m : moves) {
         auto child = state.clone();
         child->applyMove(m);
         const double value = minimax(*child, maxDepth - 1, alpha, beta, me);
+        candidates.push_back({ m, value });
         if (value > bestValue) {
             bestValue = value;
-            bestMove = m;
         }
         alpha = std::max(alpha, bestValue);
     }
-    return bestMove;
+
+    std::sort(candidates.begin(), candidates.end(), [](const Candidate& a, const Candidate& b) {
+        return a.value > b.value;
+    });
+
+    // En difícil sigue usando minimax, pero si hay varias jugadas casi igual de buenas,
+    // alterna entre ellas para usar más variedad de piezas.
+    std::vector<Move> topMoves;
+    const double margen = 12.0;
+    for (const Candidate& c : candidates) {
+        if (c.value >= bestValue - margen) topMoves.push_back(c.move);
+        if (topMoves.size() >= 3) break;
+    }
+
+    if (topMoves.empty()) return candidates.front().move;
+
+    static std::mt19937 rng((unsigned)std::chrono::high_resolution_clock::now().time_since_epoch().count());
+    std::uniform_int_distribution<size_t> dist(0, topMoves.size() - 1);
+    return topMoves[dist(rng)];
 }
 
 double MinimaxStrategy::minimax(const IGameState& state,

@@ -1,7 +1,11 @@
 #include "HeuristicStrategy.h"
 
+#include <algorithm>
+#include <chrono>
 #include <limits>
+#include <random>
 #include <stdexcept>
+#include <vector>
 
 Move HeuristicStrategy::chooseMove(const IGameState& state) {
     auto moves = state.getLegalMoves();
@@ -10,23 +14,35 @@ Move HeuristicStrategy::chooseMove(const IGameState& state) {
     }
 
     const int me = state.currentPlayer();
-    double best = -std::numeric_limits<double>::infinity();
-    Move bestMove = moves.front();
+
+    struct ScoredMove {
+        Move move;
+        double score;
+    };
+
+    std::vector<ScoredMove> scored;
+    scored.reserve(moves.size());
 
     for (const auto& m : moves) {
         auto child = state.clone();
         child->applyMove(m);
 
-        // Victoria inmediata: atajo y valor máximo.
         if (child->isTerminal() && child->winner() == me) {
             return m;
         }
 
-        const double score = child->evaluate(me);
-        if (score > best) {
-            best = score;
-            bestMove = m;
-        }
+        scored.push_back({ m, child->evaluate(me) });
     }
-    return bestMove;
+
+    std::sort(scored.begin(), scored.end(), [](const ScoredMove& a, const ScoredMove& b) {
+        return a.score > b.score;
+    });
+
+    // Nivel medio: no siempre coge exactamente el mismo movimiento.
+    // Escoge entre los mejores candidatos para que use más variedad de piezas,
+    // pero sin hacer jugadas claramente malas.
+    static std::mt19937 rng((unsigned)std::chrono::high_resolution_clock::now().time_since_epoch().count());
+    const size_t limite = std::min<size_t>(scored.size(), 4);
+    std::uniform_int_distribution<size_t> dist(0, limite - 1);
+    return scored[dist(rng)].move;
 }
