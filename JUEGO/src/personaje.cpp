@@ -25,11 +25,9 @@ bool personaje::estaVivo() {
 
 void personaje::curar(int cantidad) {
     vida += cantidad;
-    // (Opcional) Aquí podrías poner un límite, ej: if (vida > 200) vida = 200;
+   
 }
 
 int personaje::obtenerVida() {
     return vida;
 }
-
-// NOTA: moverEnTablero() y atacarEnArena() NO se programan aquí porque son "= 0" en el .h
