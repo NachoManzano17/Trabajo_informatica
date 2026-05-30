@@ -3,18 +3,19 @@
 
 class tablero;
 
-// 1. ¡RECUPERAMOS TU DICCIONARIO! (Le damos valor 0 y 1 para que encaje con tu colega)
+
 enum class bando { planta = 0, zombi = 1, ninguno = 2 };
 
 class personaje {
 protected:
     int vida;
+	int vidaMaxima;
     int fuerza;
     int velocidadAtaque;
     int tiempoRecarga;
     int radioMovimiento;
 
-    // 2. CAMBIAMOS EL 'int bando' DE TU COLEGA POR TU TIPO DE BANDO
+    
     bando mi_bando;
 
 public:
@@ -25,12 +26,13 @@ public:
     virtual void atacarEnArena() = 0;
     void recibirDano(int cantidad);
     bool estaVivo();
-    void curar(int cantidad);
-    int obtenerVida() const; // Para saber cuánta vida tiene
-    void fijarVida(int nuevaVida); // Necesario para que la IA pueda clonar el tablero
     
+    void fijarVida(int nuevaVida); 
+	int obtenerVida() const { return vida; } 
+	int getvidaMaxima() const { return vidaMaxima; }
 
-    // 3. AHORA EL ÁRBITRO RECIBE LA PALABRA, NO EL NÚMERO
+    virtual void curar(int cantidad); 
+
     virtual bando getequipo() const { return mi_bando; }
     virtual bool estamuerto() const { return vida <= 0; }
     virtual bool lanzarhechizo(int hechizo_id, int fdest, int cdest, tablero& mitablero) { return false; }
