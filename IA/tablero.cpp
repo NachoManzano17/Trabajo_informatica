@@ -127,15 +127,15 @@ void tablero::colocarpersonaje(int f, int c, personaje* p) {
 bool tablero::procesarmovimiento(int fori, int cori, int fdest, int cdest) {
     personaje* ficha = casillas[fori][cori];
 
-    // 1. ¿hay ficha y su movimiento teorico es valido (segun tu colega)?
+    // Comprobamos si hay ficha y si su movimiento teorico es valido
     if (ficha != nullptr && ficha->esmovimientovalido(fori, cori, fdest, cdest)) {
 
         personaje* destino = casillas[fdest][cdest];
 
-        // 2. ¿hay un enemigo en el destino? -> ¡COMBATE!
+        //  si hay enemigo se abre el combate
         if (destino != nullptr && destino->getequipo() != ficha->getequipo()) {
 
-            // 2.1 el arbitro calcula los bonus de VIDA y ATAQUE
+            //  el arbitro calcula los bonus de VIDA y ATAQUE
             int vida_atacante = calcularbonusvida(ficha->getequipo());
             int danio_atacante = calcularbonusataque(ficha->getequipo());
 
@@ -151,13 +151,12 @@ bool tablero::procesarmovimiento(int fori, int cori, int fdest, int cdest) {
                 std::cout << ">>> Defensor dopado: +" << vida_defensor << " HP | +" << danio_defensor << " Daño.\n";
             }
 
-            std::cout << "-> aqui pasaras estos datos al minijuego de tu colega.\n";
+            std::cout << "-> Se iniciara el combate en la arena.\n";
 
             // de momento simulamos que el atacante gana siempre
             delete destino;
         }
 
-        // 3. movemos los punteros
         casillas[fdest][cdest] = ficha;
         casillas[fori][cori] = nullptr;
         return true;
@@ -201,11 +200,11 @@ bool tablero::escasilladepoder(int f, int c) const {
     if (f == 4 && c == 0) return true; // izquierda
     if (f == 4 && c == 8) return true; // derecha
 
-    return false; // si no es ninguna de esas, es una casilla normal
+    return false; 
 }
 bando tablero::comprobarvictoria() const {
 
-    // --- CONDICIÓN 1: ANIQUILACIÓN TOTAL ---
+    // ANIQUILACIÓN TOTAL 
     int tropasplanta = 0;
     int tropaszombi = 0;
 
@@ -224,15 +223,15 @@ bando tablero::comprobarvictoria() const {
     if (tropaszombi == 0 && tropasplanta > 0) return bando::planta;
 
 
-    // --- CONDICIÓN 2: DOMINIO DE LOS PUNTOS DE PODER ---
-    // capturamos los punteros de las 5 casillas
+    //  DOMINIO DE LOS PUNTOS DE PODER 
+   
     personaje* centro = casillas[4][4];
     personaje* arriba = casillas[0][4];
     personaje* abajo = casillas[8][4];
     personaje* izq = casillas[4][0];
     personaje* der = casillas[4][8];
 
-    // si ALGUNA de las 5 casillas está vacía, nadie ha ganado por dominio todavía
+    
     if (centro != nullptr && arriba != nullptr && abajo != nullptr &&
         izq != nullptr && der != nullptr) {
 
@@ -244,7 +243,7 @@ bando tablero::comprobarvictoria() const {
             izq->getequipo() == equipodominante &&
             der->getequipo() == equipodominante) {
 
-            // ¡tenemos un ganador por dominio de casillas!
+            
             return equipodominante;
         }
     }
@@ -312,16 +311,12 @@ void tablero::inicializarpartida() {
         }
     }
 
-    // ==========================================
-    // 🌻 EJÉRCITO PLANTA (Bando 0)
-    // ==========================================
-
-    // 1. La linea frontal de peones (Columna 1)
+    
     for (int i = 0; i < 9; i++) {
         casillas[i][1] = new lanzaguisantes(0);
     }
 
-    // 2. La guardia real (Columna 0)
+ 
     casillas[0][0] = new dronajo(0);         // esquina superior
     casillas[1][0] = new cactus(0);
     casillas[2][0] = new plantaCarnivora(0);
@@ -332,16 +327,13 @@ void tablero::inicializarpartida() {
     casillas[7][0] = new cactus(0);
     casillas[8][0] = new dronajo(0);         // esquina inferior
 
-    // ==========================================
-    // 🧟 EJÉRCITO ZOMBI (Bando 1)
-    // ==========================================
-
-    // 1. La linea frontal de peones (Columna 7)
+   
+   
     for (int i = 0; i < 9; i++) {
         casillas[i][7] = new zombidito(1);
     }
 
-    // 2. La guardia real (Columna 8)
+    
     casillas[0][8] = new loropirata(1);      // esquina superior
     casillas[1][8] = new soldado(1);
     casillas[2][8] = new superCerebroz(1);
@@ -353,7 +345,7 @@ void tablero::inicializarpartida() {
     casillas[8][8] = new loropirata(1);      // esquina inferior
 }
 bool tablero::hayObstaculoEnCamino(int fOri, int cOri, int fDest, int cDest) const {
-    // Averiguamos hacia dónde se mueve (-1, 0, o 1)
+    
     int dirFila = 0;
     if (fDest > fOri) dirFila = 1;
     else if (fDest < fOri) dirFila = -1;
@@ -369,7 +361,7 @@ bool tablero::hayObstaculoEnCamino(int fOri, int cOri, int fDest, int cDest) con
     // Avanzamos paso a paso hasta llegar justo antes de la casilla de destino
     while (fAct != fDest || cAct != cDest) {
         if (getFicha(fAct, cAct) != nullptr) {
-            return true; // ¡Chocó con alguien!
+            return true; //choque
         }
         fAct += dirFila;
         cAct += dirCol;
@@ -378,9 +370,7 @@ bool tablero::hayObstaculoEnCamino(int fOri, int cOri, int fDest, int cDest) con
     return false; // Camino libre
 }
 void tablero::forzarMovimiento(int fOrig, int cOrig, int fDest, int cDest) {
-    // 1. Copiamos el puntero de la pieza a la nueva casilla
+  
     casillas[fDest][cDest] = casillas[fOrig][cOrig];
-
-    // 2. Vaciamos la casilla original SIN hacer "delete" (porque la pieza sigue viva)
     casillas[fOrig][cOrig] = nullptr;
 }
