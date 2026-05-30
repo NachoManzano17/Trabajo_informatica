@@ -1,4 +1,3 @@
-// Interaccion.h
 #pragma once
 #include "Vector2D.h"
 #include "PersonajeBaseArena.h"
