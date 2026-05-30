@@ -1,6 +1,4 @@
-// ObstaculoArena.h
 #pragma once
-#include <SFML/Graphics.hpp>
 #include "Vector2D.h"
 
 class ObstaculoArena {
@@ -8,10 +6,12 @@ private:
     Vector2D posicion;
     float ancho;
     float alto;
-    sf::RectangleShape shape;
 
 public:
+    // Solo declaramos el constructor, no le damos el cuerpo aquí
     ObstaculoArena(float startX, float startY, float w, float h);
+
     Vector2D getPosicion() { return posicion; }
-    void dibujar(sf::RenderWindow& window);
+    float getAncho() { return ancho; }
+    float getAlto() { return alto; }
 };
