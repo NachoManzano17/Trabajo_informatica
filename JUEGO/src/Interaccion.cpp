@@ -1,4 +1,3 @@
-// Interaccion.cpp
 #include "Interaccion.h"
 
 bool Interaccion::colisionCajas(Vector2D pos1, float ancho1, float alto1, Vector2D pos2, float ancho2, float alto2) {
