@@ -1,9 +1,8 @@
 #include "personaje.h"
 
-
-// Implementación del constructor
 personaje::personaje(int v, int f, int va, int tr, int rm, int b) {
     vida = v;
+    vidaMaxima = v;
     fuerza = f;
     velocidadAtaque = va;
     tiempoRecarga = tr;
@@ -23,18 +22,17 @@ bool personaje::estaVivo() {
     return vida > 0;
 }
 
-void personaje::curar(int cantidad) {
-    vida += cantidad;
-    // (Opcional) Aquí podrías poner un límite, ej: if (vida > 200) vida = 200;
-}
-
-int personaje::obtenerVida() const {
-    return vida;
-}
 
 void personaje::fijarVida(int nuevaVida) {
     vida = nuevaVida;
     if (vida < 0) vida = 0;
 }
 
-// NOTA: moverEnTablero() y atacarEnArena() NO se programan aquí porque son "= 0" en el .h
+void personaje::curar(int cantidad) {
+    this->vida += cantidad;
+
+   
+    if (this->vida > this->vidaMaxima) {
+        this->vida = this->vidaMaxima;
+    }
+}
