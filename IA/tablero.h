@@ -7,8 +7,7 @@ enum class estadociclo { luz_maxima, luz_media, neutral, oscuridad_media, oscuri
 class tablero {
 private:
     personaje* casillas[9][9];
-    int turnoglobal; // El reloj del juego
-    // preparacion para la regla de archon: el ciclo de dia/noche
+    int turnoglobal; 
     // 0 = neutral, 1 = ventaja plantas, 2 = ventaja zombis
     int estadocasillasoscilantes;
 
@@ -24,13 +23,13 @@ public:
     personaje* getpersonajeen(int f, int c) const;
     void colocarpersonaje(int f, int c, personaje* p); // util para hacer pruebas
 
-    // la funcion que detonara los combates
+   
     bool procesarmovimiento(int fori, int cori, int fdest, int cdest);
 
     void eliminarFicha(int f, int c);
 
     void forzarMovimiento(int fOrig, int cOrig, int fDest, int cDest);
-    // para ver que estas haciendo
+    
     void dibujarconsola() const;
 
     bool escasilladepoder(int f, int c) const;
@@ -46,7 +45,7 @@ public:
 
     bool procesarhechizo(int fori, int cori, int hechizo_id, int fdest, int cdest);
 
-    // Para que la consola nos diga qué hora es
+    
     void dibujarciclo() const;
 
     bool hayObstaculoEnCamino(int fOri, int cOri, int fDest, int cDest) const;
