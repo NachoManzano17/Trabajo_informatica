@@ -1,11 +1,10 @@
-// PersonajeBaseArena.h
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "Vector2D.h"
 
 class PersonajeBaseArena {
 protected:
-    Vector2D posicion; // Estilo ETSIDI
+    Vector2D posicion;
     float vidaActual;
     float vidaMaxima;
     float velocidad;
@@ -27,7 +26,7 @@ public:
 
     virtual ~PersonajeBaseArena() {}
 
-    // Getters y Setters clásicos
+
     float getVida() { return vidaActual; }
     float getVidaMaxima() { return vidaMaxima; }
     Vector2D getPosicion() { return posicion; }
@@ -36,6 +35,13 @@ public:
     bool getEsVolador() { return esVolador; }
     bool getEsCC() { return esCC; }
     float getAngulo() { return anguloMirada; }
+
+    void mirarHacia(float dx, float dy) {
+        if (dx != 0.0f || dy != 0.0f) {
+            Vector2D dir(dx, dy);
+            anguloMirada = dir.argumento() * 180.0f / 3.14159f;
+        }
+    }
 
     void setPosicion(float nx, float ny) {
         posicion.x = nx;
