@@ -31,4 +31,5 @@ public:
         bool modoUnJugador, Dificultad dificultadIA,
         const std::function<void()>& comprobarVictoria, std::vector<std::string>& cementerioPlantas,
         std::vector<std::string>& cementerioZombis, std::string& muertoSeleccionado);
+ void evaluarVictoria(tablero& mitablero, int& ganadorJuego, std::function<void(const std::string&)> logConsola, class GestorRanking& ranking, bool modoUnJugador);
 };
