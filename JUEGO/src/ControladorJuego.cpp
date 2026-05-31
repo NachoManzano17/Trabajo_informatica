@@ -14,6 +14,7 @@
 #include "pomelo.h"
 #include <cmath>
 #include "GestorAudio.h"
+#include "GestorRanking.h"
 
 void ControladorJuego::procesarClicRaton(int mouseX, int mouseY, int offsetX, int offsetY, int tamanoCasilla,
     EstadoJuego& estadoActual, tablero& mitablero,
