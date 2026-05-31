@@ -387,3 +387,46 @@ void ControladorJuego::procesarClicRaton(int mouseX, int mouseY, int offsetX, in
             }
     } 
 } 
+void ControladorJuego::evaluarVictoria(tablero& mitablero, int& ganadorJuego, std::function<void(const std::string&)> logConsola, GestorRanking& ranking, bool modoUnJugador) {
+    // 1. REVISAR ANIQUILACIÓN TOTAL
+    int totalPlantas = 0, totalZombis = 0;
+    for (int i = 0; i < 9; i++) {
+        for (int j = 0; j < 9; j++) {
+            personaje* p = mitablero.getFicha(i, j);
+            if (p != nullptr) {
+                if (p->getequipo() == bando::planta) totalPlantas++;
+                else totalZombis++;
+            }
+        }
+    }
+
+    if (totalPlantas == 0) {
+        logConsola("¡VICTORIA ZOMBI!"); ganadorJuego = 2; ranking.registrarVictoria("Zombis");
+        GestorAudio::reproducirVictoria(modoUnJugador, 2);
+    }
+    else if (totalZombis == 0) {
+        logConsola("¡VICTORIA PLANTA!"); ganadorJuego = 1; ranking.registrarVictoria("Plantas");
+        GestorAudio::reproducirVictoria(modoUnJugador, 1);
+    }
+
+    // 2. REVISAR NODOS DE PODER
+    int controlPlanta = 0, controlZombi = 0;
+    int casillasPoder[5][2] = { {0,4}, {4,0}, {4,4}, {4,8}, {8,4} };
+
+    for (int i = 0; i < 5; i++) {
+        personaje* ocupante = mitablero.getFicha(casillasPoder[i][0], casillasPoder[i][1]);
+        if (ocupante != nullptr) {
+            if (ocupante->getequipo() == bando::planta) controlPlanta++;
+            else controlZombi++;
+        }
+    }
+
+    if (controlPlanta == 5) {
+        logConsola("¡DOMINIO PLANTA!"); ganadorJuego = 1; ranking.registrarVictoria("Plantas");
+        GestorAudio::reproducirVictoria(modoUnJugador, 1);
+    }
+    else if (controlZombi == 5) {
+        logConsola("¡DOMINIO ZOMBI!"); ganadorJuego = 2; ranking.registrarVictoria("Zombis");
+        GestorAudio::reproducirVictoria(modoUnJugador, 2);
+    }
+}
