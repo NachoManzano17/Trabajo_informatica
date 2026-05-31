@@ -396,3 +396,30 @@ void VistaJuego::dibujarTableroEInterfaz(sf::RenderWindow& window, GestorRecurso
         dibujarBoton("Salir del Juego", 120);
     }
 }
+
+int VistaJuego::comprobarClicBotonPausa(float ratonX, float ratonY, float windowWidth, float windowHeight) {
+    float centroX = windowWidth / 2.f;
+    float centroY = windowHeight / 2.f;
+
+    if (ratonX >= centroX - 150 && ratonX <= centroX + 150) {
+        if (ratonY >= centroY - 45 && ratonY <= centroY + 5) return 1;      // Reanudar
+        if (ratonY >= centroY + 25 && ratonY <= centroY + 75) return 2;     // Menú Principal
+        if (ratonY >= centroY + 95 && ratonY <= centroY + 145) return 3;    // Salir
+    }
+    return 0; // No ha pulsado ningún botón
+}
+
+void VistaJuego::actualizarVolumenPausa(float ratonX, float ratonY, float windowWidth, float windowHeight) {
+    float centroX = windowWidth / 2.f;
+    float centroY = windowHeight / 2.f;
+    float xBase = centroX - 150.f;
+
+    if (ratonX >= xBase && ratonX <= xBase + 300.f) {
+        if (ratonY >= centroY + 175.f && ratonY <= centroY + 225.f) {
+            GestorAudio::setVolumenMusica(((ratonX - xBase) / 300.f) * 100.f);
+        }
+        else if (ratonY >= centroY + 245.f && ratonY <= centroY + 295.f) {
+            GestorAudio::setVolumenSFX(((ratonX - xBase) / 300.f) * 100.f);
+        }
+    }
+}
