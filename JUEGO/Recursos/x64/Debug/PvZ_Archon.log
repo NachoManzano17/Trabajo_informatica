@@ -1,0 +1,74 @@
+﻿  main.cpp
+C:\Users\nmanz\OneDrive\Universidad\Tercero\Segundo cuatri\Informatica\Trabajo\Geis version con IA - copia\PvZ_Archon\main.cpp(142,46): warning C4244: 'argumento': conversión de 'unsigned int' a 'float'; posible pérdida de datos
+C:\Users\nmanz\OneDrive\Universidad\Tercero\Segundo cuatri\Informatica\Trabajo\Geis version con IA - copia\PvZ_Archon\main.cpp(142,31): warning C4244: 'argumento': conversión de 'unsigned int' a 'float'; posible pérdida de datos
+  AdaptadorEstadoJuego.cpp
+  ControladorJuego.cpp
+  GestorArena.cpp
+  JugadorIA.cpp
+  LuchadorAvatar.cpp
+  VistaJuego.cpp
+C:\Users\nmanz\OneDrive\Universidad\Tercero\Segundo cuatri\Informatica\Trabajo\Geis version con IA - copia\PvZ_Archon\src\VistaJuego.cpp(23,68): warning C4244: 'argumento': conversión de 'int' a 'T'; posible pérdida de datos
+C:\Users\nmanz\OneDrive\Universidad\Tercero\Segundo cuatri\Informatica\Trabajo\Geis version con IA - copia\PvZ_Archon\src\VistaJuego.cpp(23,68): warning C4244:         with
+C:\Users\nmanz\OneDrive\Universidad\Tercero\Segundo cuatri\Informatica\Trabajo\Geis version con IA - copia\PvZ_Archon\src\VistaJuego.cpp(23,68): warning C4244:         [
+C:\Users\nmanz\OneDrive\Universidad\Tercero\Segundo cuatri\Informatica\Trabajo\Geis version con IA - copia\PvZ_Archon\src\VistaJuego.cpp(23,68): warning C4244:             T=float
+C:\Users\nmanz\OneDrive\Universidad\Tercero\Segundo cuatri\Informatica\Trabajo\Geis version con IA - copia\PvZ_Archon\src\VistaJuego.cpp(23,68): warning C4244:         ]
+C:\Users\nmanz\OneDrive\Universidad\Tercero\Segundo cuatri\Informatica\Trabajo\Geis version con IA - copia\PvZ_Archon\src\VistaJuego.cpp(23,53): warning C4244: 'argumento': conversión de 'int' a 'T'; posible pérdida de datos
+C:\Users\nmanz\OneDrive\Universidad\Tercero\Segundo cuatri\Informatica\Trabajo\Geis version con IA - copia\PvZ_Archon\src\VistaJuego.cpp(23,53): warning C4244:         with
+C:\Users\nmanz\OneDrive\Universidad\Tercero\Segundo cuatri\Informatica\Trabajo\Geis version con IA - copia\PvZ_Archon\src\VistaJuego.cpp(23,53): warning C4244:         [
+C:\Users\nmanz\OneDrive\Universidad\Tercero\Segundo cuatri\Informatica\Trabajo\Geis version con IA - copia\PvZ_Archon\src\VistaJuego.cpp(23,53): warning C4244:             T=float
+C:\Users\nmanz\OneDrive\Universidad\Tercero\Segundo cuatri\Informatica\Trabajo\Geis version con IA - copia\PvZ_Archon\src\VistaJuego.cpp(23,53): warning C4244:         ]
+C:\Users\nmanz\OneDrive\Universidad\Tercero\Segundo cuatri\Informatica\Trabajo\Geis version con IA - copia\PvZ_Archon\src\VistaJuego.cpp(24,72): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\nmanz\OneDrive\Universidad\Tercero\Segundo cuatri\Informatica\Trabajo\Geis version con IA - copia\PvZ_Archon\src\VistaJuego.cpp(24,41): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\nmanz\OneDrive\Universidad\Tercero\Segundo cuatri\Informatica\Trabajo\Geis version con IA - copia\PvZ_Archon\src\VistaJuego.cpp(72,66): warning C4244: 'argumento': conversión de 'int' a 'T'; posible pérdida de datos
+C:\Users\nmanz\OneDrive\Universidad\Tercero\Segundo cuatri\Informatica\Trabajo\Geis version con IA - copia\PvZ_Archon\src\VistaJuego.cpp(72,66): warning C4244:         with
+C:\Users\nmanz\OneDrive\Universidad\Tercero\Segundo cuatri\Informatica\Trabajo\Geis version con IA - copia\PvZ_Archon\src\VistaJuego.cpp(72,66): warning C4244:         [
+C:\Users\nmanz\OneDrive\Universidad\Tercero\Segundo cuatri\Informatica\Trabajo\Geis version con IA - copia\PvZ_Archon\src\VistaJuego.cpp(72,66): warning C4244:             T=float
+C:\Users\nmanz\OneDrive\Universidad\Tercero\Segundo cuatri\Informatica\Trabajo\Geis version con IA - copia\PvZ_Archon\src\VistaJuego.cpp(72,66): warning C4244:         ]
+C:\Users\nmanz\OneDrive\Universidad\Tercero\Segundo cuatri\Informatica\Trabajo\Geis version con IA - copia\PvZ_Archon\src\VistaJuego.cpp(72,51): warning C4244: 'argumento': conversión de 'int' a 'T'; posible pérdida de datos
+C:\Users\nmanz\OneDrive\Universidad\Tercero\Segundo cuatri\Informatica\Trabajo\Geis version con IA - copia\PvZ_Archon\src\VistaJuego.cpp(72,51): warning C4244:         with
+C:\Users\nmanz\OneDrive\Universidad\Tercero\Segundo cuatri\Informatica\Trabajo\Geis version con IA - copia\PvZ_Archon\src\VistaJuego.cpp(72,51): warning C4244:         [
+C:\Users\nmanz\OneDrive\Universidad\Tercero\Segundo cuatri\Informatica\Trabajo\Geis version con IA - copia\PvZ_Archon\src\VistaJuego.cpp(72,51): warning C4244:             T=float
+C:\Users\nmanz\OneDrive\Universidad\Tercero\Segundo cuatri\Informatica\Trabajo\Geis version con IA - copia\PvZ_Archon\src\VistaJuego.cpp(72,51): warning C4244:         ]
+C:\Users\nmanz\OneDrive\Universidad\Tercero\Segundo cuatri\Informatica\Trabajo\Geis version con IA - copia\PvZ_Archon\src\VistaJuego.cpp(73,73): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\nmanz\OneDrive\Universidad\Tercero\Segundo cuatri\Informatica\Trabajo\Geis version con IA - copia\PvZ_Archon\src\VistaJuego.cpp(73,39): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\nmanz\OneDrive\Universidad\Tercero\Segundo cuatri\Informatica\Trabajo\Geis version con IA - copia\PvZ_Archon\src\VistaJuego.cpp(115,106): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\nmanz\OneDrive\Universidad\Tercero\Segundo cuatri\Informatica\Trabajo\Geis version con IA - copia\PvZ_Archon\src\VistaJuego.cpp(115,71): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\nmanz\OneDrive\Universidad\Tercero\Segundo cuatri\Informatica\Trabajo\Geis version con IA - copia\PvZ_Archon\src\VistaJuego.cpp(158,43): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\nmanz\OneDrive\Universidad\Tercero\Segundo cuatri\Informatica\Trabajo\Geis version con IA - copia\PvZ_Archon\src\VistaJuego.cpp(158,36): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\nmanz\OneDrive\Universidad\Tercero\Segundo cuatri\Informatica\Trabajo\Geis version con IA - copia\PvZ_Archon\src\VistaJuego.cpp(166,55): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\nmanz\OneDrive\Universidad\Tercero\Segundo cuatri\Informatica\Trabajo\Geis version con IA - copia\PvZ_Archon\src\VistaJuego.cpp(166,43): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\nmanz\OneDrive\Universidad\Tercero\Segundo cuatri\Informatica\Trabajo\Geis version con IA - copia\PvZ_Archon\src\VistaJuego.cpp(167,55): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\nmanz\OneDrive\Universidad\Tercero\Segundo cuatri\Informatica\Trabajo\Geis version con IA - copia\PvZ_Archon\src\VistaJuego.cpp(167,43): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\nmanz\OneDrive\Universidad\Tercero\Segundo cuatri\Informatica\Trabajo\Geis version con IA - copia\PvZ_Archon\src\VistaJuego.cpp(175,38): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\nmanz\OneDrive\Universidad\Tercero\Segundo cuatri\Informatica\Trabajo\Geis version con IA - copia\PvZ_Archon\src\VistaJuego.cpp(175,31): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\nmanz\OneDrive\Universidad\Tercero\Segundo cuatri\Informatica\Trabajo\Geis version con IA - copia\PvZ_Archon\src\VistaJuego.cpp(184,51): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\nmanz\OneDrive\Universidad\Tercero\Segundo cuatri\Informatica\Trabajo\Geis version con IA - copia\PvZ_Archon\src\VistaJuego.cpp(184,39): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\nmanz\OneDrive\Universidad\Tercero\Segundo cuatri\Informatica\Trabajo\Geis version con IA - copia\PvZ_Archon\src\VistaJuego.cpp(185,51): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\nmanz\OneDrive\Universidad\Tercero\Segundo cuatri\Informatica\Trabajo\Geis version con IA - copia\PvZ_Archon\src\VistaJuego.cpp(185,39): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\nmanz\OneDrive\Universidad\Tercero\Segundo cuatri\Informatica\Trabajo\Geis version con IA - copia\PvZ_Archon\src\VistaJuego.cpp(186,51): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\nmanz\OneDrive\Universidad\Tercero\Segundo cuatri\Informatica\Trabajo\Geis version con IA - copia\PvZ_Archon\src\VistaJuego.cpp(186,39): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\nmanz\OneDrive\Universidad\Tercero\Segundo cuatri\Informatica\Trabajo\Geis version con IA - copia\PvZ_Archon\src\VistaJuego.cpp(196,43): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\nmanz\OneDrive\Universidad\Tercero\Segundo cuatri\Informatica\Trabajo\Geis version con IA - copia\PvZ_Archon\src\VistaJuego.cpp(196,36): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\nmanz\OneDrive\Universidad\Tercero\Segundo cuatri\Informatica\Trabajo\Geis version con IA - copia\PvZ_Archon\src\VistaJuego.cpp(204,41): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
+  allstar.cpp
+  cactus.cpp
+  dave.cpp
+  dronajo.cpp
+  drzomboss.cpp
+  lanzaguisantes.cpp
+  loro_pirata.cpp
+  personaje.cpp
+  planta_carnivora.cpp
+  pomelo.cpp
+  soldado.cpp
+  superCerebroz.cpp
+  tablero.cpp
+  Generando código...
+  Compilando...
+  teletransporte.cpp
+  terrestre.cpp
+  volador.cpp
+  zombidito.cpp
+  Generando código...
+  PvZ_Archon.vcxproj -> C:\Users\nmanz\OneDrive\Universidad\Tercero\Segundo cuatri\Informatica\Trabajo\Geis version con IA - copia\PvZ_Archon\x64\Debug\PvZ_Archon.exe
+  0 archivo(s) copiado(s)
