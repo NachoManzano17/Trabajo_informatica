@@ -17,4 +17,7 @@ public:
         sf::Font& fuente, bool eligiendoDificultadIA, int ganadorJuego, bool juegoPausado,
         const std::vector<std::string>& cementerioPlantas, const std::vector<std::string>& cementerioZombis,
         bool animandoMovimientoIA = false, const Movimiento* movimientoIA = nullptr, float progresoMovimientoIA = 0.0f);
+
+    int comprobarClicBotonPausa(float ratonX, float ratonY, float windowWidth, float windowHeight);
+    void actualizarVolumenPausa(float ratonX, float ratonY, float windowWidth, float windowHeight);
 };
